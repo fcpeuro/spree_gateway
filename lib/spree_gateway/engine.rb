@@ -24,6 +24,7 @@ module SpreeGateway
         app.config.spree.payment_methods << Spree::Gateway::BalancedGateway
         app.config.spree.payment_methods << Spree::Gateway::DataCash
         app.config.spree.payment_methods << Spree::Gateway::UsaEpay
+        app.config.spree.payment_methods << Spree::Gateway::Payeezy
         app.config.spree.payment_methods << Spree::Gateway::PinGateway
         app.config.spree.payment_methods << Spree::Gateway::Paymill
         app.config.spree.payment_methods << Spree::Gateway::PayflowPro
