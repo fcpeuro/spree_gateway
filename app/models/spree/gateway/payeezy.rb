@@ -14,7 +14,7 @@ module Spree
     end
 
     def create_profile(payment)
-      if payment.source.gateway_customer_profile_id.nil?
+      if existing_profile_not_present?(payment)
         response = provider.store(payment.source, options_for_payment)
         
         if response.success?
@@ -26,6 +26,20 @@ module Spree
     end
 
     private
+    
+    def existing_profile_not_present?(payment)
+      source = payment.source
+      
+      # Check to see if card is already saved
+      matching_sources = payment.order.user.payment_sources.where(
+        cc_type: source.cc_type, 
+        last_digits: source.last_digits, 
+        month: source.month, 
+        year: source.year
+      )
+      
+      payment.source.gateway_customer_profile_id.nil? && matching_sources.blank?
+    end
     
     def options_for_payment
       opts = {}
