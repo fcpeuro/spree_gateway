@@ -15,7 +15,7 @@ module Spree
 
     def create_profile(payment)
       if existing_profile_not_present?(payment)
-        response = provider.store(payment.source, options_for_payment)
+        response = provider.store(payment.source, preferences)
         
         if response.success?
           payment.source.update_attributes!(:gateway_customer_profile_id => response.authorization)
@@ -39,12 +39,6 @@ module Spree
       )
       
       payment.source.gateway_customer_profile_id.nil? && matching_sources.blank?
-    end
-    
-    def options_for_payment
-      opts = {}
-      opts[:ta_token] = "NOIW"
-      opts
     end
     
   end
